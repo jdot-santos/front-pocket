@@ -1,0 +1,33 @@
+#!/bin/bash
+source config.sh
+# source config_jdot.sh 
+
+# Prompt the user for confirmation
+read -p "Do you want to proceed with appending journal content and TODOs to $append_to_location? Type 'y' for Yes or 'n' for No: " answer
+
+# Convert input to lowercase
+answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
+
+# Check user input
+if [[ "$answer" == "y" ]]; then
+    echo "Proceeding with appending..."
+    cd "$append_to_full_dir"
+
+    # Loop through all markdown files in the current directory
+    for file in *.md; do
+        # Check if the file exists to prevent errors in case there are no .md files
+        if [ -f "$file" ]; then
+            # Append the journal content to each file
+            echo -e "$journal_content" >> "$file"
+            echo "Added journal content to $file"
+        fi
+    done
+
+elif [[ "$answer" == "n" ]]; then
+    echo "You chose NO, stopping the program."
+    exit 0
+
+else
+    echo "Invalid input. Please runt he script again and type the correct answer"
+    exit 1
+fi
