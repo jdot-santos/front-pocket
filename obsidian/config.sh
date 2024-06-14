@@ -54,3 +54,9 @@ YEAR=2025
 # Root directory to where you want create your yearly journal entries, for example /Users/$username/journal-entries/$YEAR
 # NOTE: The folder must exist or be created prior to running the script
 journal_entries_root_dir="/Users/$username/journal-entries/$YEAR"
+
+
+##############
+# Clear Files in Folder
+##############
+clear_files_directory="/Users/$username/Library/Mobile Documents/iCloud~md~obsidian/Documents/docs/temp/entries"
