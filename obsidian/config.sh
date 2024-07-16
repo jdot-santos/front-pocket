@@ -34,6 +34,15 @@ Say your affirmations
 2. thing2
 3. thing_3
 
+I took care of myself by:
+- thing_1
+
+My challenges taught me:
+- thing1
+
+I’m proud of myself for:
+- thing-one
+
 How could I have made today better?
 "
 
