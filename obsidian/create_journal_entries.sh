@@ -13,7 +13,6 @@ if [[ "$answer" == "y" ]]; then
     echo "Proceeding with appending..."
     cd "$journal_entries_root_dir"
     # create months
-    # mkdir -p {january/{assets,entries},february/{assets,entries},march/{assets,entries},april/{assets,entries},may/{assets,entries},june/{assets,entries},july/{assets,entries},august/{assets,entries},september/{assets,entries},october/{assets,entries},november/{assets,entries},december/{assets,entries}}
     mkdir -p \
         january/{assets,entries} \
         february/{assets,entries} \
@@ -28,6 +27,7 @@ if [[ "$answer" == "y" ]]; then
         november/{assets,entries} \
         december/{assets,entries}
 
+    echo "Creating entries now.."
     for i in $(seq 1 9);
     do
         echo "# 01-0$i-$YEAR" > january/entries/01-0$i-$YEAR.md

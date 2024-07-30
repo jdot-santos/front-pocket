@@ -26,6 +26,9 @@ What would make today great?
 2. going
 3. bettering
 
+Today I feel:
+- emotion1
+
 Say your affirmations
 
 ## night journal

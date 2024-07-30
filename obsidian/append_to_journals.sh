@@ -3,7 +3,7 @@ source config.sh
 # source config_jdot.sh 
 
 # Prompt the user for confirmation
-read -p "Do you want to proceed with appending journal content and TODOs to $append_to_location? Type 'y' for Yes or 'n' for No: " answer
+read -p "Do you want to proceed with appending journal content and TODOs to $append_to_full_dir? Type 'y' for Yes or 'n' for No: " answer
 
 # Convert input to lowercase
 answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
