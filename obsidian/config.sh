@@ -14,6 +14,8 @@ journal_content="
 ## TODOs
 - [ ] do morning journal
 - [ ] do nightly journal
+- [ ] do [[#morning journal]
+- [ ] do [[#night journal]]
 
 ## morning journal
 I am grateful for:
