@@ -12,9 +12,7 @@ append_to_full_dir="/Users/$username/journal-entries/2024/june"
 # Define journal content that will be inserted into each journal entry
 journal_content="
 ## TODOs
-- [ ] do morning journal
-- [ ] do nightly journal
-- [ ] do [[#morning journal]
+- [ ] do [[#morning journal]]
 - [ ] do [[#night journal]]
 
 ## morning journal
@@ -74,3 +72,15 @@ journal_entries_root_dir="/Users/$username/journal-entries/$YEAR"
 # Clear Files in Folder
 ##############
 clear_files_directory="/Users/$username/Library/Mobile Documents/iCloud~md~obsidian/Documents/docs/temp/entries"
+
+
+##############
+# Prefix to Journals
+##############
+
+# Define the location. For example, append_to_location="journals/2024/june/entries"
+prefix_to_full_dir="/Users/$username/journal-entries/2024/june"
+
+prefix_content="---
+tags:
+---"
