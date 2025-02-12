@@ -1,70 +1,63 @@
 #!/bin/bash
-source config.sh  
-# source config_jdot.sh 
+
+# Load configuration file
+#source config.sh
+source config_jdot.sh
 
 # Prompt the user for confirmation
-read -p "Do you want to proceed with creating $YEAR entries in $journal_entries_root_dir? Type 'y' for Yes or 'n' for No: " answer
+read -p "Do you want to proceed with creating journal entries for $YEAR in $journal_entries_root_dir? Type 'y' for Yes or 'n' for No: " answer
 
 # Convert input to lowercase
 answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
 
 # Check user input
-if [[ "$answer" == "y" ]]; then
-    echo "Proceeding with appending..."
-    cd "$journal_entries_root_dir"
-    # create months
-    mkdir -p \
-        january/{assets,entries} \
-        february/{assets,entries} \
-        march/{assets,entries} \
-        april/{assets,entries} \
-        may/{assets,entries} \
-        june/{assets,entries} \
-        july/{assets,entries} \
-        august/{assets,entries} \
-        september/{assets,entries} \
-        october/{assets,entries} \
-        november/{assets,entries} \
-        december/{assets,entries}
+if [[ "$answer" != "y" ]]; then
+    if [[ "$answer" == "n" ]]; then
+        echo "You chose NO, stopping the program."
+        exit 0
+    else
+        echo "Invalid input. Please run the script again and type the correct answer."
+        exit 1
+    fi
+fi
 
-    echo "Creating entries now.."
-    for i in $(seq 1 9);
-    do
-        echo "# 01-0$i-$YEAR" > january/entries/01-0$i-$YEAR.md
-        echo "# 02-0$i-$YEAR" > february/entries/02-0$i-$YEAR.md
-        echo "# 03-0$i-$YEAR" > march/entries/03-0$i-$YEAR.md
-        echo "# 04-0$i-$YEAR" > april/entries/04-0$i-$YEAR.md
-        echo "# 05-0$i-$YEAR" > may/entries/05-0$i-$YEAR.md
-        echo "# 06-0$i-$YEAR" > june/entries/06-0$i-$YEAR.md
-        echo "# 07-0$i-$YEAR" > july/entries/07-0$i-$YEAR.md
-        echo "# 08-0$i-$YEAR" > august/entries/08-0$i-$YEAR.md
-        echo "# 09-0$i-$YEAR" > september/entries/09-0$i-$YEAR.md
-        echo "# 10-0$i-$YEAR" > october/entries/10-0$i-$YEAR.md
-        echo "# 11-0$i-$YEAR" > november/entries/11-0$i-$YEAR.md
-        echo "# 12-0$i-$YEAR" > december/entries/12-0$i-$YEAR.md
-    done
+echo "Proceeding with creating journal entries..."
 
-    for i in $(seq 10 31);
-    do
-        echo "# 01-$i-$YEAR" > january/entries/01-$i-$YEAR.md
-        echo "# 02-$i-$YEAR" > february/entries/02-$i-$YEAR.md
-        echo "# 03-$i-$YEAR" > march/entries/03-$i-$YEAR.md
-        echo "# 04-$i-$YEAR" > april/entries/04-$i-$YEAR.md
-        echo "# 05-$i-$YEAR" > may/entries/05-$i-$YEAR.md
-        echo "# 06-$i-$YEAR" > june/entries/06-$i-$YEAR.md
-        echo "# 07-$i-$YEAR" > july/entries/07-$i-$YEAR.md
-        echo "# 08-$i-$YEAR" > august/entries/08-$i-$YEAR.md
-        echo "# 09-$i-$YEAR" > september/entries/09-$i-$YEAR.md
-        echo "# 10-$i-$YEAR" > october/entries/10-$i-$YEAR.md
-        echo "# 11-$i-$YEAR" > november/entries/11-$i-$YEAR.md
-        echo "# 12-$i-$YEAR" > december/entries/12-$i-$YEAR.md
-    done
+# Navigate to the journal directory
+cd "$journal_entries_root_dir" || { echo "Failed to access directory: $journal_entries_root_dir"; exit 1; }
 
-elif [[ "$answer" == "n" ]]; then
-    echo "You chose NO, stopping the program."
-    exit 0
+# List of months
+months=("january" "february" "march" "april" "may" "june" "july" "august" "september" "october" "november" "december")
 
+# Determine whether to create entries for the whole year or a specific month
+if [[ "$CREATE_FULL_YEAR" == "true" ]]; then
+    selected_months=("${months[@]}")
+elif [[ -n "$SPECIFIC_MONTH" ]]; then
+    # Convert month to lowercase and check if it's valid
+    SPECIFIC_MONTH=$(echo "$SPECIFIC_MONTH" | tr '[:upper:]' '[:lower:]')
+    if [[ ! " ${months[*]} " =~ " $SPECIFIC_MONTH " ]]; then
+        echo "Error: Invalid month specified in config_jdot.sh ($SPECIFIC_MONTH). Please use a valid month name."
+        exit 1
+    fi
+    selected_months=("$SPECIFIC_MONTH")
 else
-    echo "Invalid input. Please runt he script again and type the correct answer"
+    echo "Error: Neither CREATE_FULL_YEAR nor SPECIFIC_MONTH is set in config_jdot.sh."
     exit 1
 fi
+
+# Create month directories and journal entries
+for month in "${selected_months[@]}"; do
+    # Get the numerical representation of the month (01 for January, 02 for February, etc.)
+    month_num=$(printf "%02d" $(($(echo ${months[*]} | tr ' ' '\n' | grep -n "^$month$" | cut -d: -f1))))
+
+    mkdir -p "$month/assets" "$month/entries"
+
+    echo "Creating journal entries for $month ($month_num) in $YEAR..."
+
+    for day in $(seq -w 1 31); do
+        file_name="$month_num-$day-$YEAR.md"
+        echo "# $month_num-$day-$YEAR" > "$month/entries/$file_name"
+    done
+done
+
+echo "Journal entry creation completed!"

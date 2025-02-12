@@ -61,12 +61,14 @@ flashcards_root_dir=" /Users/$username/flashcards"
 ############################
 # Create Journal Entries Configuration
 ############################
-
 YEAR=2025
 # Root directory to where you want create your yearly journal entries, for example /Users/$username/journal-entries/$YEAR
 # NOTE: The folder must exist or be created prior to running the script
 journal_entries_root_dir="/Users/$username/journal-entries/$YEAR"
-
+# determines if the script will create every month of the year. If set to 'true', then script will ignore SPECIFIC_MONTH
+CREATE_FULL_YEAR=false
+# If CREATE_FULL_YEAR is set to false, then put in a valid month below
+SPECIFIC_MONTH="february"
 
 ##############
 # Clear Files in Folder
